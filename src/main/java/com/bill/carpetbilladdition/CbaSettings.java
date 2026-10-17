@@ -11,4 +11,13 @@ public final class CbaSettings {
 
     @Rule(categories = {BILL, RuleCategory.EXPERIMENTAL, RuleCategory.SURVIVAL})
     public static boolean reintroduceIllegalBlockEntity = false;
+
+    @Rule(categories = {BILL, RuleCategory.FEATURE, RuleCategory.SURVIVAL})
+    public static LegacyThrowableMovementMode legacyThrowableMovement = LegacyThrowableMovementMode.OFF;
+
+    public enum LegacyThrowableMovementMode {
+        OFF,
+        PEARL,
+        ALL
+    }
 }

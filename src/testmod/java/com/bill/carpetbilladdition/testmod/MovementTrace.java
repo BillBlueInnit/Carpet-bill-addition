@@ -19,7 +19,7 @@ public final class MovementTrace {
      * which ignores components above 10, this allows the speeds TNT gives pearls in cannons.
      */
     public static void applyMotionTag(Entity entity) {
-        for (String tag : entity.getTags()) {
+        for (String tag : entity.entityTags()) {
             if (tag.startsWith(MOTION_TAG_PREFIX)) {
                 String[] parts = tag.substring(MOTION_TAG_PREFIX.length()).split(",");
                 entity.setDeltaMovement(new Vec3(Double.parseDouble(parts[0]), Double.parseDouble(parts[1]), Double.parseDouble(parts[2])));
@@ -30,7 +30,7 @@ public final class MovementTrace {
     }
 
     public static void log(Entity entity, String event) {
-        for (String tag : entity.getTags()) {
+        for (String tag : entity.entityTags()) {
             if (tag.startsWith(TAG_PREFIX)) {
                 Vec3 motion = entity.getDeltaMovement();
                 System.out.println("CBA-TRACE " + tag.substring(TAG_PREFIX.length()) + " " + event + " " + entity.tickCount

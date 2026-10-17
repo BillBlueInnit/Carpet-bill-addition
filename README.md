@@ -85,9 +85,13 @@ The rule runs the 1.21.1 tick order for the chosen projectiles. Positions and ve
 walls, water and bubble columns). Where a pearl teleports its owner did not change: both versions use
 the position at the start of the tick.
 
+Since 1.21.6 the entity hit margin of a projectile grows from 0 to 0.3 over its first ticks; with the rule
+the 1.21.1 margin of 0.3 is used from the first tick, so entities right next to a fresh projectile are hit again.
+
 Notes:
 
-- Unchanged on purpose: the 1.21.2+ ender pearl chunk loading, owner tracking and teleport handling.
+- Unchanged on purpose: the 1.21.2+ ender pearl chunk loading, owner tracking and teleport handling, and
+  projectiles stopping at the world border (also new in 1.21.2, but not part of how they move).
 - Clients without the mod predict the 1.21.2+ movement between position updates from the server, so a pearl
   can look slightly off on screen; the server-side result is what counts.
 - Vector pearl cannons themselves have not been tested in game; the movement was verified tick by tick.

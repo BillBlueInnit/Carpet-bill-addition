@@ -1,11 +1,13 @@
 package com.bill.carpetbilladdition.mixin;
 
 import com.bill.carpetbilladdition.LegacyThrowableMovement;
+import java.util.function.Predicate;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -39,6 +41,26 @@ public abstract class ThrowableProjectileMixin extends Entity {
         }
     }
 
+    /**
+     * {@code ProjectileUtil.getHitResultOnMoveVector()} with the entity hit margin of 1.21.1. Since 1.21.6 the margin
+     * grows from 0 to 0.3 over a projectile's first ticks ({@code ProjectileUtil.computeMargin()}), so entities right
+     * next to a fresh projectile are no longer hit. 1.21.1 always used 0.3.
+     */
+    @Unique
+    private HitResult cba$hitResultOnMoveVector(Predicate<Entity> canHit) {
+        Vec3 from = this.position();
+        Vec3 motion = this.getDeltaMovement();
+        Vec3 to = from.add(motion);
+        HitResult hitResult = this.level().clipIncludingBorder(new ClipContext(from, to, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+        if (hitResult.getType() != HitResult.Type.MISS) {
+            to = hitResult.getLocation();
+        }
+        HitResult entityHitResult = ProjectileUtil.getEntityHitResult(
+                this.level(), this, from, to, this.getBoundingBox().expandTowards(motion).inflate(1.0), canHit, 0.3F
+        );
+        return entityHitResult != null ? entityHitResult : hitResult;
+    }
+
     @Unique
     private void cba$legacyTick() {
         // Projectile.tick(): shoot game event, owner check and the base entity tick (fire, water state, portals)
@@ -49,7 +71,7 @@ public abstract class ThrowableProjectileMixin extends Entity {
         // handled right away, before it moves. An ender pearl teleports its owner to this position, which is also
         // the oldPosition() that the current ThrownEnderpearl.onHit() uses.
         ProjectileInvoker projectile = (ProjectileInvoker) this;
-        HitResult hitResult = ProjectileUtil.getHitResultOnMoveVector(this, projectile::cba$canHitEntity);
+        HitResult hitResult = this.cba$hitResultOnMoveVector(projectile::cba$canHitEntity);
         if (hitResult.getType() != HitResult.Type.MISS) {
             projectile.cba$hitTargetOrDeflectSelf(hitResult);
         }

@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Orientation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BlockBehaviour.BlockStateBase.class)
 public abstract class TestUpdateSuppressorMixin {
     @Inject(method = "handleNeighborChanged", at = @At("HEAD"))
-    private void cbaTest$suppress(Level level, BlockPos pos, Block block, BlockPos fromPos, boolean movedByPiston, CallbackInfo ci) {
+    private void cbaTest$suppress(Level level, BlockPos pos, Block block, Orientation orientation, boolean movedByPiston, CallbackInfo ci) {
         if (!level.isClientSide && ((BlockState) (Object) this).is(Blocks.BARRIER) && level.getBlockState(pos.below()).is(Blocks.TARGET)) {
             throw new IllegalStateException("cba test update suppressor at " + pos.toShortString());
         }

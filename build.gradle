@@ -1,5 +1,5 @@
 plugins {
-    id "fabric-loom" version "${loom_version}"
+    id "net.fabricmc.fabric-loom" version "${loom_version}"
 }
 
 version = "${project.mod_version}+mc${project.minecraft_version}"
@@ -41,10 +41,10 @@ repositories {
 }
 
 dependencies {
+    // Minecraft 26.1+ is not obfuscated, so there are no mappings and nothing to remap
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "carpet:fabric-carpet:${project.carpet_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "carpet:fabric-carpet:${project.carpet_version}"
 }
 
 processResources {

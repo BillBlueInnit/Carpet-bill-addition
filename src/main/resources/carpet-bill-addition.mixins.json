@@ -5,11 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BlockEntityMixin",
-    "ChiseledBookShelfBlockMixin",
-    "LecternBlockMixin",
-    "LevelChunkMixin",
-    "SculkSensorBlockMixin",
-    "ShulkerBoxBlockMixin"
+    "LevelChunkMixin"
   ],
   "injectors": {
     "defaultRequire": 1

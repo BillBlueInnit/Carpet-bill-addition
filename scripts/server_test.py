@@ -95,8 +95,16 @@ KEEP = (680, 520)
 DROP = (840, 520)
 
 
+def translations(rcon):
+    print("== translations")
+    for lang, name in (("zh_cn", "重新引入非法方块实体"), ("zh_tw", "重新引入非法方塊實體"), ("en_us", "reintroduceIllegalBlockEntity")):
+        rcon.run(f"carpet language {lang}")
+        check(f"{lang}: rule name is translated", name in rcon.run("carpet reintroduceIllegalBlockEntity"))
+
+
 def setup(rcon):
     """First server run: build suppressors and check them while their chunks stay loaded."""
+    translations(rcon)
     print("== rule off: vanilla behaviour")
     rcon.run("carpet reintroduceIllegalBlockEntity false")
     x, z = VANILLA

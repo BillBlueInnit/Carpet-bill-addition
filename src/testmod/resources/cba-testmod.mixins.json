@@ -4,6 +4,8 @@
   "package": "com.bill.carpetbilladdition.testmod.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
+    "EntityRemovalTraceMixin",
+    "ServerLevelTraceMixin",
     "TestUpdateSuppressorMixin"
   ],
   "injectors": {

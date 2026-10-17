@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class TestUpdateSuppressorMixin {
     @Inject(method = "handleNeighborChanged", at = @At("HEAD"))
     private void cbaTest$suppress(Level level, BlockPos pos, Block block, Orientation orientation, boolean movedByPiston, CallbackInfo ci) {
-        if (!level.isClientSide && ((BlockState) (Object) this).is(Blocks.BARRIER) && level.getBlockState(pos.below()).is(Blocks.TARGET)) {
+        if (!level.isClientSide() && ((BlockState) (Object) this).is(Blocks.BARRIER) && level.getBlockState(pos.below()).is(Blocks.TARGET)) {
             throw new IllegalStateException("cba test update suppressor at " + pos.toShortString());
         }
     }

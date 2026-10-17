@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "cba-testmod",
+  "version": "0.0.0",
+  "name": "Carpet Bill Addition test helpers",
+  "environment": "*",
+  "mixins": ["cba-testmod.mixins.json"],
+  "depends": {
+    "carpet-bill-addition": "*"
+  }
+}

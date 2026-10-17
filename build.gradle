@@ -1,0 +1,75 @@
+plugins {
+    id "fabric-loom" version "${loom_version}"
+}
+
+version = "${project.mod_version}+mc${project.minecraft_version}"
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+sourceSets {
+    testmod {
+        compileClasspath += main.compileClasspath + main.output
+        runtimeClasspath += main.runtimeClasspath + main.output
+    }
+}
+
+loom {
+    mods {
+        "carpet-bill-addition" {
+            sourceSet sourceSets.main
+        }
+        "cba-testmod" {
+            sourceSet sourceSets.testmod
+        }
+    }
+    runs {
+        testServer {
+            server()
+            name = "Test Server"
+            source sourceSets.testmod
+            runDir = "run/test-server"
+            ideConfigGenerated = false
+        }
+    }
+}
+
+repositories {
+    maven { url = "https://masa.dy.fi/maven" }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "carpet:fabric-carpet:${project.carpet_version}"
+}
+
+processResources {
+    def props = [
+            version             : project.version,
+            minecraft_dependency: project.minecraft_dependency,
+            java_version        : project.java_version
+    ]
+    inputs.properties props
+    filesMatching("fabric.mod.json") {
+        expand props
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+    options.release = project.java_version as int
+}
+
+java {
+    withSourcesJar()
+}
+
+jar {
+    from("LICENSE") {
+        rename { "LICENSE_${project.base.archivesName.get()}" }
+    }
+}

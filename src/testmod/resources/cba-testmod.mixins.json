@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.bill.carpetbilladdition.testmod.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "TestUpdateSuppressorMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

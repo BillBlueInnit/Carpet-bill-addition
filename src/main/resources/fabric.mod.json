@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "carpet-bill-addition",
+  "version": "${version}",
+  "name": "Carpet Bill Addition",
+  "description": "A Fabric Carpet extension for technical Minecraft. Reintroduces illegal block entities and sound suppression.",
+  "authors": ["billb"],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/carpet-bill-addition/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.bill.carpetbilladdition.CarpetBillAddition"]
+  },
+  "mixins": ["carpet-bill-addition.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "${minecraft_dependency}",
+    "java": ">=${java_version}",
+    "carpet": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "parent": "carpet"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "carpet.category.bill": "Bill Addition",
+  "carpet.rule.reintroduceIllegalBlockEntity.name": "reintroduceIllegalBlockEntity",
+  "carpet.rule.reintroduceIllegalBlockEntity.desc": "Reintroduces illegal block entities removed in 1.21.1, so sound suppression works again",
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.0": "A block entity may stay under a block of another type again, and is no longer deleted when its chunk loads",
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.1": "Removed blocks send their neighbor updates before their block entity is deleted again, so update suppression can keep the block entity",
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.2": "An illegal sculk sensor block entity throws IllegalArgumentException when it hears a vibration (sound suppression)",
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.3": "Turn it on before loading chunks with old suppressors, and back up your world"
+}

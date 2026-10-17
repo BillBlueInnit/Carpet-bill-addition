@@ -12,21 +12,15 @@ import struct
 import sys
 import time
 
-PHASE = sys.argv[1] if len(sys.argv) > 1 else "setup"
-HOST = sys.argv[2] if len(sys.argv) > 2 else "127.0.0.1"
-PORT = int(sys.argv[3]) if len(sys.argv) > 3 else 25575
-PASSWORD = sys.argv[4] if len(sys.argv) > 4 else "cba-test"
 
 FAILED = "An unexpected error occurred"
 
-sys.stdout.reconfigure(encoding="utf-8")
-
 
 class Rcon:
-    def __init__(self):
-        self.sock = socket.create_connection((HOST, PORT), timeout=30)
+    def __init__(self, host="127.0.0.1", port=25575, password="cba-test"):
+        self.sock = socket.create_connection((host, port), timeout=30)
         self.request_id = 0
-        self._send(3, PASSWORD)
+        self._send(3, password)
 
     def _send(self, kind, body):
         self.request_id += 1
@@ -163,8 +157,8 @@ def reload(rcon):
 
 
 def main():
-    phase = PHASE
-    rcon = Rcon()
+    phase = sys.argv[1] if len(sys.argv) > 1 else "setup"
+    rcon = Rcon(*sys.argv[2:3], *[int(port) for port in sys.argv[3:4]], *sys.argv[4:5])
     {"setup": setup, "reload": reload}[phase](rcon)
     passed = sum(1 for _, ok in results if ok)
     print(f"\n{phase}: {passed}/{len(results)} checks passed")
@@ -172,4 +166,5 @@ def main():
 
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8")
     sys.exit(main())

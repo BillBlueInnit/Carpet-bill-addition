@@ -5,7 +5,17 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BlockEntityMixin",
+<<<<<<< HEAD
     "LevelChunkMixin"
+=======
+    "ChiseledBookShelfBlockMixin",
+    "LecternBlockMixin",
+    "LevelChunkMixin",
+    "ProjectileInvoker",
+    "SculkSensorBlockMixin",
+    "ShulkerBoxBlockMixin",
+    "ThrowableProjectileMixin"
+>>>>>>> 1.21.4
   ],
   "injectors": {
     "defaultRequire": 1

@@ -63,15 +63,19 @@ def check(name, condition):
 
 
 def build_swapped_sensor(rcon, x, y, z):
-    """Replace an active sculk sensor with a chest while its removal neighbor update is suppressed."""
+    """Break an active sculk sensor while its removal neighbor update is suppressed, then put chests there."""
     rcon.run(f"fill {x - 2} {y} {z - 2} {x + 4} {y + 1} {z + 2} air")
     rcon.run(f"setblock {x} {y} {z} sculk_sensor[sculk_sensor_phase=active]")
     rcon.run(f"setblock {x + 1} {y - 1} {z} target")
     rcon.run(f"setblock {x + 1} {y} {z} barrier")
-    swap = rcon.run(f"setblock {x} {y} {z} chest")
+    # destroy mode breaks the block with block updates, like a player would
+    swap = rcon.run(f"setblock {x} {y} {z} air destroy")
     rcon.run(f"setblock {x + 1} {y} {z} air")
     rcon.run(f"setblock {x + 1} {y - 1} {z} grass_block")
-    return swap
+    kept_after_break = "minecraft:sculk_sensor" in block_entity_id(rcon, x, y, z)
+    rcon.run(f"setblock {x} {y} {z} chest")
+    rcon.run(f"setblock {x} {y} {z} chest[facing=east]")
+    return swap, kept_after_break
 
 
 def block_entity_id(rcon, x, y, z):
@@ -107,12 +111,14 @@ def translations(rcon):
 def setup(rcon):
     """First server run: build suppressors and check them while their chunks stay loaded."""
     translations(rcon)
+    # A dropped sculk sensor item landing next to an illegal sculk sensor would trigger sound suppression
+    # inside an entity tick and crash the server, which is real but not what this test is about.
+    rcon.run("gamerule doTileDrops false")
     print("== rule off: vanilla behaviour")
     rcon.run("carpet reintroduceIllegalBlockEntity false")
     x, z = VANILLA
     load_chunk(rcon, x, z)
     build_swapped_sensor(rcon, x, Y, z)
-    rcon.run(f"setblock {x} {Y} {z} chest[facing=east]")
     check("rule off: mismatched block entity is replaced by a chest one", "minecraft:chest" in block_entity_id(rcon, x, Y, z))
     check("rule off: no sound suppression", FAILED not in hear_vibration(rcon, x, Y, z))
 
@@ -120,10 +126,10 @@ def setup(rcon):
     rcon.run("carpet reintroduceIllegalBlockEntity true")
     for x, z in (KEEP, DROP):
         load_chunk(rcon, x, z)
-        build_swapped_sensor(rcon, x, Y, z)
-        check("rule on: sculk sensor block entity kept under the chest", "minecraft:sculk_sensor" in block_entity_id(rcon, x, Y, z))
-        rcon.run(f"setblock {x} {Y} {z} chest[facing=east]")
-        check("rule on: block entity survives a block state update", "minecraft:sculk_sensor" in block_entity_id(rcon, x, Y, z))
+        swap, kept_after_break = build_swapped_sensor(rcon, x, Y, z)
+        check("rule on: breaking the sensor was update suppressed", FAILED in swap)
+        check("rule on: sculk sensor block entity kept after its block is broken", kept_after_break)
+        check("rule on: sculk sensor block entity kept under the chests placed there", "minecraft:sculk_sensor" in block_entity_id(rcon, x, Y, z))
     x, z = KEEP
     check("rule on: vibration throws (sound suppression)", FAILED in hear_vibration(rcon, x, Y, z))
     check("rule on: suppressor still in place after suppressing", "minecraft:sculk_sensor" in block_entity_id(rcon, x, Y, z))

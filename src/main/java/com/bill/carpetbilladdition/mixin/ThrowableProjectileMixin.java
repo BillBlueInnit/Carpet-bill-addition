@@ -55,8 +55,9 @@ public abstract class ThrowableProjectileMixin extends Entity {
         }
 
         // 1.21.1 called checkInsideBlocks() here for the blocks the projectile is in before moving. The current
-        // equivalent is the block effect pass over an empty movement at the current position.
-        this.applyEffectsFromBlocks(this.position(), this.position());
+        // equivalent is the block effect pass: the projectile has not moved yet, so it covers oldPosition() to
+        // position(), which is the same point, plus any movement recorded this tick, e.g. from a piston push.
+        this.applyEffectsFromBlocks();
 
         // Move by last tick's velocity, then apply drag and gravity for the next tick:
         //   1.21.1: position += v; v = v * drag - gravity

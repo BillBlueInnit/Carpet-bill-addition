@@ -19,6 +19,8 @@ PASSWORD = sys.argv[4] if len(sys.argv) > 4 else "cba-test"
 
 FAILED = "An unexpected error occurred"
 
+sys.stdout.reconfigure(encoding="utf-8")
+
 
 class Rcon:
     def __init__(self):

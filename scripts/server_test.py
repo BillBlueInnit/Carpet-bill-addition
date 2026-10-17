@@ -113,7 +113,9 @@ def setup(rcon):
     translations(rcon)
     # A dropped sculk sensor item landing next to an illegal sculk sensor would trigger sound suppression
     # inside an entity tick and crash the server, which is real but not what this test is about.
-    rcon.run("gamerule doTileDrops false")
+    for rule in ("block_drops", "doTileDrops"):  # renamed in 1.21.11
+        if "Incorrect argument" not in rcon.run(f"gamerule {rule} false"):
+            break
     print("== rule off: vanilla behaviour")
     rcon.run("carpet reintroduceIllegalBlockEntity false")
     x, z = VANILLA

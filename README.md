@@ -49,6 +49,53 @@ Notes:
   can crash or kick the player. Use something like Carpet TIS Addition's `yeetUpdateSuppressionCrash` if you need protection.
 - Back up your world.
 
+### legacyThrowableMovement
+
+Makes throwable projectiles move exactly like in Minecraft 1.21.1, so vector ender pearl cannons and pearl
+alignment built before 1.21.2 work again. Only on the 1.21.2+ branches; 1.21 - 1.21.1 already move this way.
+
+- Type: `off` / `pearl` / `all`
+- Default: `off`
+- Categories: `bill`, `feature`, `survival`
+
+```
+/carpet legacyThrowableMovement pearl
+```
+
+| Mode | Affected |
+| --- | --- |
+| `off` | Nothing, vanilla movement |
+| `pearl` | Ender pearls |
+| `all` | Every `ThrowableProjectile`: ender pearls, snowballs, eggs, thrown potions, bottles o' enchanting |
+
+Arrows, tridents, fireballs and wind charges have their own movement code and are never affected.
+
+1.21.2 rewrote `ThrowableProjectile.tick()`. Each tick, with `v` the velocity:
+
+| | 1.21.1 (restored) | 1.21.2+ |
+| --- | --- | --- |
+| Velocity | `v = v * drag - gravity`, after moving | `v = (v - gravity) * drag`, before moving |
+| Position | `pos += v` with last tick's `v` | `pos += v` with the new `v`, or the hit point |
+| Collision search | along last tick's `v` | along the new `v` |
+| Hit handled | before moving, at the current position | after moving to the hit point |
+| Base entity tick | first | last |
+
+The rule runs the 1.21.1 tick order for the chosen projectiles. Positions and velocities are bit-identical to
+1.21.1 in `scripts/movement_test.py` (ticks 1 - 80 of 15 cases, from resting pearls to 2000 blocks/tick,
+walls, water and bubble columns). Where a pearl teleports its owner did not change: both versions use
+the position at the start of the tick.
+
+Since 1.21.6 the entity hit margin of a projectile grows from 0 to 0.3 over its first ticks; with the rule
+the 1.21.1 margin of 0.3 is used from the first tick, so entities right next to a fresh projectile are hit again.
+
+Notes:
+
+- Unchanged on purpose: the 1.21.2+ ender pearl chunk loading, owner tracking and teleport handling, and
+  projectiles stopping at the world border (also new in 1.21.2, but not part of how they move).
+- Clients without the mod predict the 1.21.2+ movement between position updates from the server, so a pearl
+  can look slightly off on screen; the server-side result is what counts.
+- Vector pearl cannons themselves have not been tested in game; the movement was verified tick by tick.
+
 ## Supported versions
 
 Each Minecraft version family lives on its own git branch. `main` tracks the newest release.
@@ -67,6 +114,17 @@ Each Minecraft version family lives on its own git branch. `main` tracks the new
 | `1.21.1` | 1.21 - 1.21.1 | 1.21 |
 
 The mod is only needed on the server (or on the client for singleplayer). Fabric API is not required.
+
+## Movement test
+
+`scripts/movement_test.py` compares projectile movement tick by tick with a trace recorded on vanilla 1.21.1
+(`scripts/reference/movement-1.21.1.json`):
+
+```
+./gradlew runTestServer
+python scripts/movement_test.py record run/test-server/logs/latest.log traces.json off pearl all
+python scripts/movement_test.py compare scripts/reference/movement-1.21.1.json traces.json
+```
 
 ## Building
 
@@ -117,6 +175,19 @@ and reloads the chunk, with the rule both on and off.
 幽匿感测体方块实体位于例如箱子下面时，一旦接收到振动就会读取箱子并不存在的 `sculk_sensor_phase` 属性并抛出 `IllegalArgumentException`，这就是声音抑制器。
 
 注意：请在加载含有旧抑制器的区块**之前**开启规则（建议 `setDefault`），否则 1.21.1+ 会在区块加载时删除非法方块实体且无法恢复；在 1.21 上原版本身就有该机制，规则不起作用；抑制会像原版 1.21 一样抛出真实异常，可能导致崩服或玩家掉线；请备份存档。
+
+### legacyThrowableMovement（旧版投掷物运动）
+
+使投掷物的运动与 1.21.1 完全一致，以兼容 1.21.2 之前的矢量珍珠炮和珍珠对齐装置。仅 1.21.2+ 分支提供；1.21 - 1.21.1 本身就是旧版运动。
+
+```
+/carpet legacyThrowableMovement pearl
+```
+
+- `off`（默认）：原版运动；`pearl`：仅末影珍珠；`all`：所有 `ThrowableProjectile`（末影珍珠、雪球、鸡蛋、投掷的药水、附魔之瓶）。
+- 箭、三叉戟、火球和风弹不受影响。
+- 恢复的是 1.21.1 的完整 tick 顺序：先执行实体基础 tick；沿上一 tick 的速度判定碰撞并在移动前处理命中；再按上一 tick 的速度移动；最后计算阻力与重力（`v = v * 阻力 - 重力`）。
+- 经 `scripts/movement_test.py` 逐 tick 对比，位置与速度和 1.21.1 逐位相同；尚未在游戏内实际测试矢量珍珠炮。
 
 ## License
 

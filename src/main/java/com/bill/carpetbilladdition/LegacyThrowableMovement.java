@@ -1,7 +1,7 @@
 package com.bill.carpetbilladdition;
 
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.world.entity.projectile.ThrownEnderpearl;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrownEnderpearl;
 
 /**
  * Decides which throwable projectiles move like they did in Minecraft 1.21.1, see legacyThrowableMovement.

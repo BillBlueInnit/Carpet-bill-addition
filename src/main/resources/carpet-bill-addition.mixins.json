@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BlockEntityMixin",
-    "LevelChunkMixin"
+    "LevelChunkMixin",
+    "ProjectileInvoker",
+    "ThrowableProjectileMixin"
   ],
   "injectors": {
     "defaultRequire": 1

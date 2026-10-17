@@ -33,6 +33,13 @@ def water_tank(rcon, x, y, z):
     rcon.run(f"fill {x} {y - 1} {z - 1} {x + 13} {y + 1} {z + 1} water")
 
 
+def armor_stand(rcon, x, y, z):
+    # The pearl passes 0.45 from the stand's center line, inside the 0.3 entity hit margin 1.21.1 always used.
+    # 1.21.6+ grows the margin from 0 over the first ticks and misses it.
+    # Integer summon coordinates are centered, so the pearl flies along z + 0.5.
+    rcon.run(f'summon armor_stand {x + 4.5} {y - 0.5} {z + 0.05} {{NoGravity:1b,Tags:["cba_trace"]}}')
+
+
 def bubble_column(rcon, x, y, z):
     rcon.run(f"fill {x - 1} {y - 3} {z - 1} {x + 1} {y + 3} {z + 1} glass hollow")
     rcon.run(f"setblock {x} {y - 2} {z} soul_sand")
@@ -55,6 +62,7 @@ CASES = [
     ("potion", ["splash_potion", "potion"], (0, 0, 0), (1.5, 0.4, 0.25), None),
     ("experience_bottle", ["experience_bottle"], (0, 0, 0), (1.5, 0.4, 0.25), None),
     ("arrow", ["arrow"], (0, 0, 0), (1.5, 0.4, 0.25), None),
+    ("pearl_near_entity", PEARL, (0, 0, 0), (1.0, 0.0, 0.0), armor_stand),
     ("pearl_diagonal", PEARL, (0, 0, 0), (6.0, 1.5, 4.5), None),
 ]
 

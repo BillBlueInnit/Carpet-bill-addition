@@ -5,5 +5,10 @@
   "carpet.rule.reintroduceIllegalBlockEntity.extra.0": "方块实体可以再次存在于其它类型的方块中，区块加载时也不会再被删除",
   "carpet.rule.reintroduceIllegalBlockEntity.extra.1": "方块被移除时会重新先产生邻居更新、再删除方块实体，因此可以利用更新抑制保留方块实体",
   "carpet.rule.reintroduceIllegalBlockEntity.extra.2": "非法的幽匿感测体方块实体接收到振动时会抛出IllegalArgumentException，即声音抑制",
-  "carpet.rule.reintroduceIllegalBlockEntity.extra.3": "请在加载含有旧版抑制器的区块之前开启此规则，并备份存档"
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.3": "请在加载含有旧版抑制器的区块之前开启此规则，并备份存档",
+  "carpet.rule.legacyThrowableMovement.name": "旧版投掷物运动",
+  "carpet.rule.legacyThrowableMovement.desc": "使投掷物像1.21.1一样运动，以兼容1.21.2之前的珍珠炮",
+  "carpet.rule.legacyThrowableMovement.extra.0": "pearl：仅末影珍珠；all：还包括雪球、鸡蛋、投掷的药水和附魔之瓶",
+  "carpet.rule.legacyThrowableMovement.extra.1": "先按旧速度移动再计算阻力与重力，并在移动之前判定与方块和实体的碰撞",
+  "carpet.rule.legacyThrowableMovement.extra.2": "不影响箭、三叉戟、火球和风弹"
 }

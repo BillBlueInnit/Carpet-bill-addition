@@ -5,5 +5,10 @@
   "carpet.rule.reintroduceIllegalBlockEntity.extra.0": "A block entity may stay under a block of another type again, and is no longer deleted when its chunk loads",
   "carpet.rule.reintroduceIllegalBlockEntity.extra.1": "Removed blocks send their neighbor updates before their block entity is deleted again, so update suppression can keep the block entity",
   "carpet.rule.reintroduceIllegalBlockEntity.extra.2": "An illegal sculk sensor block entity throws IllegalArgumentException when it hears a vibration (sound suppression)",
-  "carpet.rule.reintroduceIllegalBlockEntity.extra.3": "Turn it on before loading chunks with old suppressors, and back up your world"
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.3": "Turn it on before loading chunks with old suppressors, and back up your world",
+  "carpet.rule.legacyThrowableMovement.name": "legacyThrowableMovement",
+  "carpet.rule.legacyThrowableMovement.desc": "Makes throwable projectiles move like in 1.21.1, for pearl cannons built before 1.21.2",
+  "carpet.rule.legacyThrowableMovement.extra.0": "pearl: only ender pearls; all: also snowballs, eggs, thrown potions and bottles of enchanting",
+  "carpet.rule.legacyThrowableMovement.extra.1": "They move by their old velocity before drag and gravity are applied, and hit blocks and entities before moving",
+  "carpet.rule.legacyThrowableMovement.extra.2": "Arrows, tridents, fireballs and wind charges are not affected"
 }

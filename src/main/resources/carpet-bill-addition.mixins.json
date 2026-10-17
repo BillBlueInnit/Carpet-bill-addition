@@ -8,8 +8,10 @@
     "ChiseledBookShelfBlockMixin",
     "LecternBlockMixin",
     "LevelChunkMixin",
+    "ProjectileInvoker",
     "SculkSensorBlockMixin",
-    "ShulkerBoxBlockMixin"
+    "ShulkerBoxBlockMixin",
+    "ThrowableProjectileMixin"
   ],
   "injectors": {
     "defaultRequire": 1

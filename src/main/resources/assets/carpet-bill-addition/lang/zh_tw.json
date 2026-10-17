@@ -1,0 +1,9 @@
+{
+  "carpet.category.bill": "Bill附屬",
+  "carpet.rule.reintroduceIllegalBlockEntity.name": "重新引入非法方塊實體",
+  "carpet.rule.reintroduceIllegalBlockEntity.desc": "重新引入1.21.1中被移除的非法方塊實體，使聲音抑制器重新可用",
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.0": "方塊實體可以再次存在於其他類型的方塊中，區塊載入時也不會再被刪除",
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.1": "方塊被移除時會重新先產生鄰近方塊更新、再刪除方塊實體，因此可以利用更新抑制保留方塊實體",
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.2": "非法的伏聆振測器方塊實體接收到振動時會拋出IllegalArgumentException，即聲音抑制",
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.3": "請在載入含有舊版抑制器的區塊之前開啟此規則，並備份存檔"
+}

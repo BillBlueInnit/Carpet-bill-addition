@@ -1,9 +1,9 @@
 {
-  "carpet.category.bill": "Bill 附属",
+  "carpet.category.bill": "Bill附属",
   "carpet.rule.reintroduceIllegalBlockEntity.name": "重新引入非法方块实体",
-  "carpet.rule.reintroduceIllegalBlockEntity.desc": "重新引入 1.21.1 移除的非法方块实体，使声音抑制重新可用",
-  "carpet.rule.reintroduceIllegalBlockEntity.extra.0": "方块实体可以再次留在其它类型的方块下，区块加载时也不再将其删除",
-  "carpet.rule.reintroduceIllegalBlockEntity.extra.1": "被移除的方块重新先发出邻居更新、再删除方块实体，因此可以用更新抑制保留方块实体",
-  "carpet.rule.reintroduceIllegalBlockEntity.extra.2": "非法的幽匿感测体方块实体在接收到振动时会抛出 IllegalArgumentException（声音抑制）",
-  "carpet.rule.reintroduceIllegalBlockEntity.extra.3": "请在加载含有旧抑制器的区块之前开启此规则，并备份存档"
+  "carpet.rule.reintroduceIllegalBlockEntity.desc": "重新引入1.21.1中被移除的非法方块实体，使声音抑制器重新可用",
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.0": "方块实体可以再次存在于其它类型的方块中，区块加载时也不会再被删除",
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.1": "方块被移除时会重新先产生邻居更新、再删除方块实体，因此可以利用更新抑制保留方块实体",
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.2": "非法的幽匿感测体方块实体接收到振动时会抛出IllegalArgumentException，即声音抑制",
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.3": "请在加载含有旧版抑制器的区块之前开启此规则，并备份存档"
 }

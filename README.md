@@ -121,3 +121,5 @@ and reloads the chunk, with the rule both on and off.
 ## License
 
 MIT
+
+The icon is based on the icon of [Fabric Carpet](https://github.com/gnembon/fabric-carpet) (MIT) by gnembon.

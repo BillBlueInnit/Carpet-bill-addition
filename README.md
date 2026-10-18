@@ -100,9 +100,6 @@ not change: both versions use the position at the start of the tick.
 Positions and velocities are bit-identical to 1.21.1 on every branch in `scripts/movement_test.py`
 (ticks 1 - 80 of 16 cases, from resting pearls to 2000 blocks/tick, walls, an entity, water and bubble columns).
 
-Since 1.21.6 the entity hit margin of a projectile grows from 0 to 0.3 over its first ticks; with the rule
-the 1.21.1 margin of 0.3 is used from the first tick, so entities right next to a fresh projectile are hit again.
-
 Notes:
 
 - Unchanged on purpose: the 1.21.2+ ender pearl chunk loading, owner tracking and teleport handling, and

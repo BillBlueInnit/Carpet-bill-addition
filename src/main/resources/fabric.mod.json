@@ -4,7 +4,7 @@
   "version": "${version}",
   "name": "Carpet Bill Addition",
   "description": "A Fabric Carpet extension for technical Minecraft. Reintroduces illegal block entities and sound suppression.",
-  "authors": ["billb"],
+  "authors": ["Bill Blue"],
   "contact": {},
   "license": "MIT",
   "icon": "assets/carpet-bill-addition/icon.png",

@@ -26,6 +26,7 @@ Full explanations are on the [rules page](docs/rules.md).
 | [`reintroduceIllegalBlockEntity`](docs/rules.md#reintroduceillegalblockentity) | `false` | Brings back illegal block entities (removed in 1.21.1), so sound suppression works again |
 | [`soundSuppressionRange`](docs/rules.md#soundsuppressionrange) | `0` | How far sound suppressors hear vibrations, up to 64 blocks (0 = vanilla) |
 | [`legacyThrowableMovement`](docs/rules.md#legacythrowablemovement) | `off` | Ender pearls (`pearl`) or all throwables (`all`) move exactly like in 1.21.1, for old pearl cannons. 1.21.2+ only |
+| [`commandPlayerPrefix`](docs/rules.md#commandplayerprefix) | `false` | Enables `/playerprefix <player> <prefix> [<color>]`, which shows `[prefix]name` in chat, the player list and above the head |
 
 ## Supported versions
 

@@ -10,5 +10,9 @@
   "carpet.rule.legacyThrowableMovement.desc": "Makes throwable projectiles move like in 1.21.1, for pearl cannons built before 1.21.2",
   "carpet.rule.legacyThrowableMovement.extra.0": "pearl: only ender pearls; all: also snowballs, eggs, thrown potions and bottles of enchanting",
   "carpet.rule.legacyThrowableMovement.extra.1": "They move by their old velocity before drag and gravity are applied, and hit blocks and entities before moving",
-  "carpet.rule.legacyThrowableMovement.extra.2": "Arrows, tridents, fireballs and wind charges are not affected"
+  "carpet.rule.legacyThrowableMovement.extra.2": "Arrows, tridents, fireballs and wind charges are not affected",
+  "carpet.rule.soundSuppressionRange.name": "soundSuppressionRange",
+  "carpet.rule.soundSuppressionRange.desc": "How far away sound suppressors (illegal sculk sensors) hear vibrations",
+  "carpet.rule.soundSuppressionRange.extra.0": "0 is vanilla: 8 blocks for sculk sensors, 16 for calibrated sculk sensors",
+  "carpet.rule.soundSuppressionRange.extra.1": "1 - 64 sets the radius of every sound suppressor; normal sculk sensors are not affected"
 }

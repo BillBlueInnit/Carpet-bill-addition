@@ -10,5 +10,9 @@
   "carpet.rule.legacyThrowableMovement.desc": "使投掷物像1.21.1一样运动，以兼容1.21.2之前的珍珠炮",
   "carpet.rule.legacyThrowableMovement.extra.0": "pearl：仅末影珍珠；all：还包括雪球、鸡蛋、投掷的药水和附魔之瓶",
   "carpet.rule.legacyThrowableMovement.extra.1": "先按旧速度移动再计算阻力与重力，并在移动之前判定与方块和实体的碰撞",
-  "carpet.rule.legacyThrowableMovement.extra.2": "不影响箭、三叉戟、火球和风弹"
+  "carpet.rule.legacyThrowableMovement.extra.2": "不影响箭、三叉戟、火球和风弹",
+  "carpet.rule.soundSuppressionRange.name": "声音抑制范围",
+  "carpet.rule.soundSuppressionRange.desc": "声音抑制器（非法的幽匿感测体）能接收振动的距离",
+  "carpet.rule.soundSuppressionRange.extra.0": "0为原版：幽匿感测体8格，校频幽匿感测体16格",
+  "carpet.rule.soundSuppressionRange.extra.1": "1 - 64设置所有声音抑制器的半径；不影响正常的幽匿感测体"
 }

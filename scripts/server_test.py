@@ -77,10 +77,11 @@ def block_entity_id(rcon, x, y, z):
     return out
 
 
-def hear_vibration(rcon, x, y, z):
+def hear_vibration(rcon, x, y, z, distance=3):
+    """An armor stand dies `distance` blocks east of (x, y, z), which is a vibration (entity_die, radius 16)."""
     rcon.run(f"kill @e[type=armor_stand]")
-    rcon.run(f"summon armor_stand {x + 3} {y} {z} {{NoGravity:1b}}")
-    return rcon.run(f"kill @e[type=armor_stand,x={x + 3},y={y},z={z},distance=..1]")
+    rcon.run(f"summon armor_stand {x + distance} {y} {z} {{NoGravity:1b}}")
+    return rcon.run(f"kill @e[type=armor_stand,x={x + distance},y={y},z={z},distance=..1]")
 
 
 def load_chunk(rcon, x, z):
@@ -130,10 +131,41 @@ def setup(rcon):
     check("rule on: vibration throws (sound suppression)", FAILED in hear_vibration(rcon, x, Y, z))
     check("rule on: suppressor still in place after suppressing", "minecraft:sculk_sensor" in block_entity_id(rcon, x, Y, z))
 
+    sound_suppression_range(rcon)
+
     # No tickets left, so the test chunks are not loaded when the server starts again
     rcon.run("forceload remove all")
     rcon.run("carpet reintroduceIllegalBlockEntity false")
     rcon.run("save-all flush")
+
+
+def sound_suppression_range(rcon):
+    print("== soundSuppressionRange")
+    x, z = KEEP
+    rcon.run(f"forceload add {x} {z} {x + 80} {z}")
+    time.sleep(2)
+    # rule value, distance of the vibration from the suppressor (a plain sculk sensor), suppressed?
+    # Vibrations 40+ blocks away come from sections vanilla does not look at for a 16 block event.
+    cases = [
+        (0, 6, True), (0, 12, False),
+        (64, 12, True), (64, 40, True), (64, 63, True), (64, 70, False),
+        (32, 20, True), (32, 40, False),
+        (4, 6, False),
+    ]
+    for value, distance, expected in cases:
+        rcon.run(f"carpet soundSuppressionRange {value}")
+        suppressed = FAILED in hear_vibration(rcon, x, Y, z, distance)
+        check(f"range {value}: vibration {distance} blocks away {'is' if expected else 'is not'} suppressed", suppressed == expected)
+    rcon.run("carpet soundSuppressionRange 32")
+    sensor_x = x + 40
+    rcon.run(f"setblock {sensor_x} {Y} {z} sculk_sensor")
+    time.sleep(1)
+    hear_vibration(rcon, sensor_x, Y, z, 12)  # 52 blocks from the suppressor
+    time.sleep(1)
+    check("range 32: a normal sculk sensor still hears only 8 blocks",
+          "passed" in rcon.run(f"execute if block {sensor_x} {Y} {z} minecraft:sculk_sensor[sculk_sensor_phase=inactive]"))
+    rcon.run(f"setblock {sensor_x} {Y} {z} air")
+    rcon.run("carpet soundSuppressionRange 0")
 
 
 def reload(rcon):
@@ -145,6 +177,11 @@ def reload(rcon):
     load_chunk(rcon, x, z)
     check("rule on: block entity still a sculk sensor after loading", "minecraft:sculk_sensor" in block_entity_id(rcon, x, Y, z))
     check("rule on: vibration throws after loading", FAILED in hear_vibration(rcon, x, Y, z))
+    rcon.run(f"forceload add {x} {z} {x + 80} {z}")
+    rcon.run("carpet soundSuppressionRange 64")
+    time.sleep(2)
+    check("range 64: a suppressor loaded from disk hears a vibration 40 blocks away", FAILED in hear_vibration(rcon, x, Y, z, 40))
+    rcon.run("carpet soundSuppressionRange 0")
 
     print("== rule off: loading the chunk drops the illegal block entity like vanilla 1.21.1+")
     rcon.run("carpet reintroduceIllegalBlockEntity false")

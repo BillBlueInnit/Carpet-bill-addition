@@ -5,5 +5,9 @@
   "carpet.rule.reintroduceIllegalBlockEntity.extra.0": "方塊實體可以再次存在於其他類型的方塊中，區塊載入時也不會再被刪除",
   "carpet.rule.reintroduceIllegalBlockEntity.extra.1": "方塊被移除時會重新先產生鄰近方塊更新、再刪除方塊實體，因此可以利用更新抑制保留方塊實體",
   "carpet.rule.reintroduceIllegalBlockEntity.extra.2": "非法的伏聆振測器方塊實體接收到振動時會拋出IllegalArgumentException，即聲音抑制",
-  "carpet.rule.reintroduceIllegalBlockEntity.extra.3": "請在載入含有舊版抑制器的區塊之前開啟此規則，並備份存檔"
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.3": "請在載入含有舊版抑制器的區塊之前開啟此規則，並備份存檔",
+  "carpet.rule.soundSuppressionRange.name": "聲音抑制範圍",
+  "carpet.rule.soundSuppressionRange.desc": "聲音抑制器（非法的伏聆振測器）能接收振動的距離",
+  "carpet.rule.soundSuppressionRange.extra.0": "0為原版：伏聆振測器8格，校準伏聆振測器16格",
+  "carpet.rule.soundSuppressionRange.extra.1": "1 - 64設定所有聲音抑制器的半徑；不影響正常的伏聆振測器"
 }

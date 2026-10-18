@@ -5,5 +5,9 @@
   "carpet.rule.reintroduceIllegalBlockEntity.extra.0": "A block entity may stay under a block of another type again, and is no longer deleted when its chunk loads",
   "carpet.rule.reintroduceIllegalBlockEntity.extra.1": "Removed blocks send their neighbor updates before their block entity is deleted again, so update suppression can keep the block entity",
   "carpet.rule.reintroduceIllegalBlockEntity.extra.2": "An illegal sculk sensor block entity throws IllegalArgumentException when it hears a vibration (sound suppression)",
-  "carpet.rule.reintroduceIllegalBlockEntity.extra.3": "Turn it on before loading chunks with old suppressors, and back up your world"
+  "carpet.rule.reintroduceIllegalBlockEntity.extra.3": "Turn it on before loading chunks with old suppressors, and back up your world",
+  "carpet.rule.soundSuppressionRange.name": "soundSuppressionRange",
+  "carpet.rule.soundSuppressionRange.desc": "How far away sound suppressors (illegal sculk sensors) hear vibrations",
+  "carpet.rule.soundSuppressionRange.extra.0": "0 is vanilla: 8 blocks for sculk sensors, 16 for calibrated sculk sensors",
+  "carpet.rule.soundSuppressionRange.extra.1": "1 - 64 sets the radius of every sound suppressor; normal sculk sensors are not affected"
 }

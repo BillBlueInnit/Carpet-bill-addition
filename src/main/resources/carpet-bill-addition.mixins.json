@@ -7,10 +7,14 @@
   "mixins": [
     "BlockEntityMixin",
     "ChiseledBookShelfBlockMixin",
+    "EuclideanGameEventListenerRegistryMixin",
+    "GameEventDispatcherMixin",
     "LecternBlockMixin",
     "LevelChunkMixin",
     "SculkSensorBlockMixin",
-    "ShulkerBoxBlockMixin"
+    "ShulkerBoxBlockMixin",
+    "SoundSuppressorBlockEntityMixin",
+    "SoundSuppressorLevelChunkMixin"
   ],
   "injectors": {
     "defaultRequire": 1

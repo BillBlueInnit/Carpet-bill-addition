@@ -4,6 +4,7 @@ import carpet.api.settings.CarpetRule;
 import carpet.api.settings.Rule;
 import carpet.api.settings.RuleCategory;
 import carpet.api.settings.Validator;
+import carpet.api.settings.Validators;
 import net.minecraft.commands.CommandSourceStack;
 
 public final class CbaSettings {
@@ -22,6 +23,13 @@ public final class CbaSettings {
             validators = SoundSuppressionRangeValidator.class
     )
     public static int soundSuppressionRange = 0;
+
+    @Rule(
+            categories = {BILL, RuleCategory.COMMAND},
+            options = {"true", "false", "ops", "0", "1", "2", "3", "4"},
+            validators = Validators.CommandLevel.class
+    )
+    public static String commandPlayerPrefix = "false";
 
     @Rule(categories = {BILL, RuleCategory.FEATURE, RuleCategory.SURVIVAL})
     public static LegacyThrowableMovementMode legacyThrowableMovement = LegacyThrowableMovementMode.OFF;

@@ -2,8 +2,10 @@ package com.bill.carpetbilladdition;
 
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
+import com.bill.carpetbilladdition.command.PlayerPrefixCommand;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mojang.brigadier.CommandDispatcher;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -12,6 +14,10 @@ import java.util.Collections;
 import java.util.Map;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.commands.CommandBuildContext;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +39,26 @@ public final class CarpetBillAddition implements ModInitializer, CarpetExtension
     @Override
     public void onGameStarted() {
         CarpetServer.settingsManager.parseSettingsClass(CbaSettings.class);
+    }
+
+    @Override
+    public void onServerLoaded(MinecraftServer server) {
+        PlayerPrefixes.load(server);
+    }
+
+    @Override
+    public void onServerClosed(MinecraftServer server) {
+        PlayerPrefixes.unload();
+    }
+
+    @Override
+    public void onPlayerLoggedIn(ServerPlayer player) {
+        PlayerPrefixes.apply(CarpetServer.minecraft_server, player.getScoreboardName());
+    }
+
+    @Override
+    public void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext commandBuildContext) {
+        PlayerPrefixCommand.register(dispatcher);
     }
 
     @Override

@@ -4,8 +4,16 @@
   "version": "0.0.0",
   "name": "Carpet Bill Addition test helpers",
   "environment": "*",
-  "mixins": ["cba-testmod.mixins.json"],
+  "mixins": [
+    "cba-testmod.mixins.json"
+  ],
   "depends": {
-    "carpet-bill-addition": "*"
+    "carpet-bill-addition": "*",
+    "carpet": "*"
+  },
+  "entrypoints": {
+    "main": [
+      "com.bill.carpetbilladdition.testmod.CbaTestMod"
+    ]
   }
 }

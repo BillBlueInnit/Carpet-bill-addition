@@ -10,6 +10,7 @@
 | [`reintroduceIllegalBlockEntity`](#reintroduceillegalblockentity重新引入非法方块实体) | `false` | `true`、`false` | 1.21+ |
 | [`soundSuppressionRange`](#soundsuppressionrange声音抑制范围) | `0` | `0` - `64` | 1.21+ |
 | [`legacyThrowableMovement`](#legacythrowablemovement旧版投掷物运动) | `off` | `off`、`pearl`、`all` | 1.21.2+ |
+| [`commandPlayerPrefix`](#commandplayerprefix玩家前缀命令) | `false` | `true`、`false`、`ops`、`0` - `4` | 1.21+ |
 
 ---
 
@@ -137,3 +138,44 @@
 - 故意保持不变：1.21.2+ 的末影珍珠区块加载（chunk loading）、主人追踪（owner tracking）与传送处理，以及投掷物会停在世界边界（world border）处（同样是 1.21.2 的新改动，但不属于运动方式）。
 - 未安装本模组的客户端会在服务器两次位置同步之间按 1.21.2+ 的方式预测运动，因此珍珠在屏幕上可能略有偏差；以服务端结果为准。
 - 尚未在游戏内实际测试矢量珍珠炮；运动是逐 tick 验证的。
+
+---
+
+## commandPlayerPrefix（玩家前缀命令）
+
+启用 `/playerprefix`，在玩家名称前显示前缀（prefix）：`[前缀]玩家名`，显示在聊天栏（chat）、玩家列表（player list，Tab 键）和头顶名称（name tag）上。
+
+- 类型：命令权限（command permission），与 Carpet 自带的命令规则相同
+- 默认值：`false`
+- 可选值：`true`（所有人）、`false`（任何人都不能用）、`ops`（仅管理员（operator））、`0` - `4`（对应权限等级（permission level））
+- 分类：`bill`、`command`
+
+```
+/carpet commandPlayerPrefix true
+/playerprefix <玩家> <前缀> [<颜色>]
+/playerprefix <玩家>
+/playerprefix <玩家> ""
+```
+
+| 命令 | 效果 |
+| --- | --- |
+| `/playerprefix Steve Builder` | Steve 显示为 `[Builder]Steve` |
+| `/playerprefix Steve Builder gold` | 同上，`[Builder]` 为金色（可用任何聊天颜色（chat color）：`red`、`aqua`、`dark_purple` 等） |
+| `/playerprefix Steve` | 查看 Steve 当前的前缀和颜色 |
+| `/playerprefix Steve ""` | 移除 Steve 的前缀 |
+
+前缀含空格或中文时请加引号：`/playerprefix Steve "建筑师"`。前缀最多 32 个字符。
+
+### 谁可以设置谁的前缀
+
+- 管理员可以设置任何人的前缀，包括不在线的玩家。
+- 其他有权使用该命令的玩家只能设置自己和 Carpet 假人（fake player）的前缀。
+
+### 显示方式
+
+原版客户端只会在玩家头顶显示队伍前缀（team prefix），因此设置了前缀的玩家会被加入一个专属队伍（team）`cba_prefix_<玩家名>`，
+该队伍的前缀就是 `[前缀]`。颜色只作用于前缀，不改变名字的颜色。这个队伍也会让前缀显示在聊天栏、玩家列表和 `/list` 中。
+
+如果玩家已经在别的队伍中，则保留原队伍：此时前缀会加在聊天栏和玩家列表中的名字前，但无法显示在头顶。命令会对此给出提示。
+
+前缀按存档保存在 `carpet-bill-addition/player_prefixes.json` 中，并在玩家或假人每次登录时重新应用，因此重启后依然有效。

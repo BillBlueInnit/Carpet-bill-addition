@@ -94,6 +94,9 @@ Y = -60
 VANILLA = (520, 520)
 KEEP = (680, 520)
 DROP = (840, 520)
+# Lower case, so Carpet's name lookup cannot change them
+BOT_A = "cba_bot_a"
+BOT_B = "cba_bot_b"
 
 
 def translations(rcon):
@@ -132,6 +135,7 @@ def setup(rcon):
     check("rule on: suppressor still in place after suppressing", "minecraft:sculk_sensor" in block_entity_id(rcon, x, Y, z))
 
     sound_suppression_range(rcon)
+    player_prefix(rcon)
 
     # No tickets left, so the test chunks are not loaded when the server starts again
     rcon.run("forceload remove all")
@@ -168,6 +172,63 @@ def sound_suppression_range(rcon):
     rcon.run("carpet soundSuppressionRange 0")
 
 
+def spawn_bots(rcon, *names):
+    """Carpet looks fake player names up in the background, so wait until they are really online."""
+    for i, name in enumerate(names):
+        rcon.run(f"player {name} spawn at {2 * i} -60 0")
+    for _ in range(40):
+        online = rcon.run("list")
+        if all(name in online for name in names):
+            return
+        time.sleep(0.5)
+    raise RuntimeError(f"fake players did not join: {names}")
+
+
+def player_prefix(rcon):
+    """Two Carpet fake players; /cbatest as runs a command with BOT_A's own (non-operator) permission."""
+    print("== commandPlayerPrefix")
+    rcon.run("carpet commandPlayerPrefix false")
+    check("rule false: /playerprefix does not exist", "Unknown or incomplete command" in rcon.run(f"playerprefix {BOT_A} Admin"))
+    spawn_bots(rcon, BOT_A, BOT_B)
+    rcon.run("carpet commandPlayerPrefix true")
+
+    rcon.run(f"playerprefix {BOT_A} Admin red")
+    check("operator: prefix shown as [prefix]name", f"[Admin]{BOT_A}" in rcon.run("list"))
+    check("operator: prefix keeps its color", "red" in rcon.run(f"playerprefix {BOT_A}"))
+    check("prefix is a team prefix, so it shows above the head", BOT_A in rcon.run(f"team list cba_prefix_{BOT_A}"))
+
+    rcon.run(f"cbatest as {BOT_A} playerprefix {BOT_A} Me")
+    check("non-operator: sets their own prefix", f"[Me]{BOT_A}" in rcon.run("list"))
+    rcon.run(f"cbatest as {BOT_A} playerprefix {BOT_B} Bot gold")
+    check("non-operator: sets a fake player's prefix", f"[Bot]{BOT_B}" in rcon.run("list"))
+    refused = rcon.run(f"cbatest as {BOT_A} playerprefix Steve Hi")
+    check("non-operator: cannot set another player's prefix",
+          "only set your own" in refused and "has no prefix" in rcon.run("playerprefix Steve"))
+    rcon.run("playerprefix Steve Hi")
+    check("operator: can set anyone's prefix, even offline", "[Hi]" in rcon.run("playerprefix Steve"))
+    rcon.run('playerprefix Steve ""')
+
+    rcon.run("team add red_team")
+    rcon.run(f"team join red_team {BOT_B}")
+    rcon.run(f"playerprefix {BOT_B} Bot gold")
+    check("a player in another team keeps it", BOT_B in rcon.run("team list red_team"))
+    check("... and still shows the prefix in chat and the player list", f"[Bot]{BOT_B}" in rcon.run("list"))
+
+    rcon.run(f'playerprefix {BOT_A} ""')
+    names = rcon.run("list")
+    check("an empty prefix removes it", BOT_A in names and f"]{BOT_A}" not in names)
+    check("... together with its team", f"cba_prefix_{BOT_A}" not in rcon.run("team list"))
+
+    rcon.run("carpet commandPlayerPrefix ops")
+    check("rule ops: non-operators cannot use it", "ERROR" in rcon.run(f"cbatest as {BOT_A} playerprefix {BOT_A} X"))
+    check("rule ops: operators can", "has no prefix" in rcon.run(f"playerprefix {BOT_A}"))
+    rcon.run("carpet commandPlayerPrefix false")
+    # BOT_B keeps its prefix and team, to be checked after the restart
+    rcon.run(f"player {BOT_A} kill")
+    rcon.run(f"player {BOT_B} kill")
+    time.sleep(1)
+
+
 def reload(rcon):
     """Second server run: the chunks are read back from disk."""
     print("== rule on: illegal block entity survives loading the chunk")
@@ -182,6 +243,14 @@ def reload(rcon):
     time.sleep(2)
     check("range 64: a suppressor loaded from disk hears a vibration 40 blocks away", FAILED in hear_vibration(rcon, x, Y, z, 40))
     rcon.run("carpet soundSuppressionRange 0")
+
+    print("== commandPlayerPrefix after a restart")
+    spawn_bots(rcon, BOT_B)
+    check("a saved prefix is shown again when the player joins", f"[Bot]{BOT_B}" in rcon.run("list"))
+    rcon.run("carpet commandPlayerPrefix true")
+    check("... with its color", "gold" in rcon.run(f"playerprefix {BOT_B}"))
+    rcon.run("carpet commandPlayerPrefix false")
+    rcon.run(f"player {BOT_B} kill")
 
     print("== rule off: loading the chunk drops the illegal block entity like vanilla 1.21.1+")
     rcon.run("carpet reintroduceIllegalBlockEntity false")

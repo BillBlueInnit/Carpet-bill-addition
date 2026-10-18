@@ -5,8 +5,12 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "BlockEntityMixin",
+    "EuclideanGameEventListenerRegistryMixin",
+    "GameEventDispatcherMixin",
     "LevelChunkMixin",
     "ProjectileInvoker",
+    "SoundSuppressorBlockEntityMixin",
+    "SoundSuppressorLevelChunkMixin",
     "ThrowableProjectileMixin"
   ],
   "injectors": {

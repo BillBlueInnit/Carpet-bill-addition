@@ -106,6 +106,8 @@ def read_traces(log_path):
                 continue
             entry = [event, int(tick)] + numbers
             trace = traces.setdefault(case, [])
+            if trace and int(tick) < trace[-1][1]:
+                continue  # the entity was saved with its chunk and loaded again, which restarts its tick count
             if not trace or trace[-1] != entry:  # an entity outside ticking chunks repeats its last state
                 trace.append(entry)
     return traces

@@ -23,6 +23,7 @@
 | [`reintroduceIllegalBlockEntity`](docs/rules.zh-CN.md#reintroduceillegalblockentity重新引入非法方块实体) | `false` | 重新引入 1.21.1 移除的非法方块实体（illegal block entity），使声音抑制（sound suppression）重新可用 |
 | [`soundSuppressionRange`](docs/rules.zh-CN.md#soundsuppressionrange声音抑制范围) | `0` | 声音抑制器（sound suppressor）接收振动（vibration）的距离，最大 64 格（0 = 原版） |
 | [`legacyThrowableMovement`](docs/rules.zh-CN.md#legacythrowablemovement旧版投掷物运动) | `off` | 让末影珍珠（`pearl`）或所有投掷物（`all`）的运动与 1.21.1 完全一致，兼容旧珍珠炮。仅 1.21.2+ |
+| [`commandPlayerPrefix`](docs/rules.zh-CN.md#commandplayerprefix玩家前缀命令) | `false` | 启用 `/playerprefix <玩家> <前缀> [<颜色>]`，在聊天栏、玩家列表和头顶显示 `[前缀]玩家名` |
 
 ## 支持的版本
 

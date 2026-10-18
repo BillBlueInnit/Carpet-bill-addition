@@ -10,6 +10,7 @@ Use `/carpet setDefault <rule> <value>` to keep a value after restarts.
 | [`reintroduceIllegalBlockEntity`](#reintroduceillegalblockentity) | `false` | `true`, `false` | 1.21+ |
 | [`soundSuppressionRange`](#soundsuppressionrange) | `0` | `0` - `64` | 1.21+ |
 | [`legacyThrowableMovement`](#legacythrowablemovement) | `off` | `off`, `pearl`, `all` | 1.21.2+ |
+| [`commandPlayerPrefix`](#commandplayerprefix) | `false` | `true`, `false`, `ops`, `0` - `4` | 1.21+ |
 
 ---
 
@@ -147,3 +148,49 @@ Positions and velocities are bit-identical to 1.21.1 on every branch in `scripts
 - Clients without the mod predict the 1.21.2+ movement between position updates from the server, so a pearl
   can look slightly off on screen; the server-side result is what counts.
 - Vector pearl cannons themselves have not been tested in game; the movement was verified tick by tick.
+
+---
+
+## commandPlayerPrefix
+
+Enables `/playerprefix`, which shows a prefix before a player's name: `[prefix]name`, in chat, the player list
+(tab) and above their head.
+
+- Type: command permission, like Carpet's own command rules
+- Default: `false`
+- Options: `true` (everyone), `false` (nobody), `ops` (operators only), `0` - `4` (that permission level)
+- Categories: `bill`, `command`
+
+```
+/carpet commandPlayerPrefix true
+/playerprefix <player> <prefix> [<color>]
+/playerprefix <player>
+/playerprefix <player> ""
+```
+
+| Command | Effect |
+| --- | --- |
+| `/playerprefix Steve Builder` | Steve is shown as `[Builder]Steve` |
+| `/playerprefix Steve Builder gold` | The same, with `[Builder]` in gold (any chat color: `red`, `aqua`, `dark_purple`, ...) |
+| `/playerprefix Steve` | Shows Steve's current prefix and color |
+| `/playerprefix Steve ""` | Removes Steve's prefix |
+
+Use quotes for prefixes with spaces or non-English characters: `/playerprefix Steve "建筑师"`.
+A prefix can be at most 32 characters.
+
+### Who can set whose prefix
+
+- Operators can set the prefix of anyone, including players who are offline.
+- Everyone else who may use the command can only set their own prefix and the prefix of Carpet fake players.
+
+### How it is shown
+
+Vanilla clients only draw a team prefix above a player's head, so a player with a prefix is put into a team of their
+own, `cba_prefix_<name>`, whose prefix is `[prefix]`. The prefix color only colors the prefix, not the name.
+That team also shows the prefix in chat, the player list and `/list`.
+
+If the player is already in another team, they stay in it: the prefix is then added to their name in chat and the
+player list, but cannot be shown above their head. The command says so when that happens.
+
+Prefixes are saved per world in `carpet-bill-addition/player_prefixes.json` and applied again whenever a player or
+fake player logs in, so they survive restarts.

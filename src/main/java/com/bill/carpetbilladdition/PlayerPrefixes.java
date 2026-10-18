@@ -14,7 +14,6 @@ import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
@@ -23,6 +22,7 @@ import net.minecraft.server.ServerScoreboard;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.TeamColor;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -46,10 +46,10 @@ public final class PlayerPrefixes {
     private PlayerPrefixes() {
     }
 
-    public record Prefix(String player, String text, @Nullable ChatFormatting color) {
+    public record Prefix(String player, String text, @Nullable TeamColor color) {
         public MutableComponent component() {
             MutableComponent component = Component.literal("[" + this.text + "]");
-            return this.color != null ? component.withStyle(this.color) : component;
+            return this.color != null ? component.withColor(this.color.textColor()) : component;
         }
     }
 
@@ -62,7 +62,7 @@ public final class PlayerPrefixes {
         try (Reader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
             for (JsonElement element : GSON.fromJson(reader, JsonArray.class)) {
                 JsonObject entry = element.getAsJsonObject();
-                ChatFormatting color = entry.has("color") ? ChatFormatting.getByName(entry.get("color").getAsString()) : null;
+                TeamColor color = entry.has("color") ? TeamColor.byName(entry.get("color").getAsString()) : null;
                 Prefix prefix = new Prefix(entry.get("player").getAsString(), entry.get("prefix").getAsString(), color);
                 PREFIXES.put(key(prefix.player()), prefix);
             }
@@ -81,7 +81,7 @@ public final class PlayerPrefixes {
         return PREFIXES.get(key(player));
     }
 
-    public static void set(MinecraftServer server, String player, String text, @Nullable ChatFormatting color) {
+    public static void set(MinecraftServer server, String player, String text, @Nullable TeamColor color) {
         PREFIXES.put(key(player), new Prefix(player, text, color));
         save();
         apply(server, player);
@@ -159,7 +159,7 @@ public final class PlayerPrefixes {
             entry.addProperty("player", prefix.player());
             entry.addProperty("prefix", prefix.text());
             if (prefix.color() != null) {
-                entry.addProperty("color", prefix.color().getName());
+                entry.addProperty("color", prefix.color().getSerializedName());
             }
             array.add(entry);
         }

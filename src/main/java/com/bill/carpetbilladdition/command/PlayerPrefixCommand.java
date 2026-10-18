@@ -13,10 +13,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
-import net.minecraft.commands.arguments.ColorArgument;
+import net.minecraft.commands.arguments.TeamColorArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.TeamColor;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -40,11 +41,11 @@ public final class PlayerPrefixCommand {
                                         StringArgumentType.getString(context, "player"),
                                         StringArgumentType.getString(context, "prefix"),
                                         null))
-                                .then(Commands.argument("color", ColorArgument.color())
+                                .then(Commands.argument("color", TeamColorArgument.teamColor())
                                         .executes(context -> set(context.getSource(),
                                                 StringArgumentType.getString(context, "player"),
                                                 StringArgumentType.getString(context, "prefix"),
-                                                ColorArgument.getColor(context, "color")))))));
+                                                TeamColorArgument.getTeamColor(context, "color")))))));
     }
 
     private static int show(CommandSourceStack source, String name) {
@@ -55,11 +56,11 @@ public final class PlayerPrefixCommand {
             return 0;
         }
         source.sendSuccess(() -> Component.literal(tr("show", player)).append(prefix.component())
-                .append(Component.literal(" (" + (prefix.color() != null ? prefix.color().getName() : "default") + ")")), false);
+                .append(Component.literal(" (" + (prefix.color() != null ? prefix.color().getSerializedName() : "default") + ")")), false);
         return 1;
     }
 
-    private static int set(CommandSourceStack source, String name, String text, @Nullable ChatFormatting color) throws CommandSyntaxException {
+    private static int set(CommandSourceStack source, String name, String text, @Nullable TeamColor color) throws CommandSyntaxException {
         ServerPlayer target = source.getServer().getPlayerList().getPlayerByName(name);
         String player = target != null ? target.getScoreboardName() : name;
         if (!CommandHelper.canUseCommand(source, "ops")) {
@@ -77,8 +78,7 @@ public final class PlayerPrefixCommand {
         if (prefix.length() > PlayerPrefixes.MAX_LENGTH) {
             throw new SimpleCommandExceptionType(Component.literal(tr("too_long", PlayerPrefixes.MAX_LENGTH))).create();
         }
-        ChatFormatting prefixColor = color != null && color.isColor() ? color : null;
-        PlayerPrefixes.set(source.getServer(), player, prefix, prefixColor);
+        PlayerPrefixes.set(source.getServer(), player, prefix, color);
         PlayerPrefixes.Prefix stored = PlayerPrefixes.get(player);
         source.sendSuccess(() -> Component.literal(tr("set", player)).append(stored.component()).append(Component.literal(player)), false);
         PlayerTeam otherTeam = PlayerPrefixes.otherTeam(source.getServer(), player);

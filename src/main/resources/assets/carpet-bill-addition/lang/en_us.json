@@ -9,5 +9,16 @@
   "carpet.rule.soundSuppressionRange.name": "soundSuppressionRange",
   "carpet.rule.soundSuppressionRange.desc": "How far away sound suppressors (illegal sculk sensors) hear vibrations",
   "carpet.rule.soundSuppressionRange.extra.0": "0 is vanilla: 8 blocks for sculk sensors, 16 for calibrated sculk sensors",
-  "carpet.rule.soundSuppressionRange.extra.1": "1 - 64 sets the radius of every sound suppressor; normal sculk sensors are not affected"
+  "carpet.rule.soundSuppressionRange.extra.1": "1 - 64 sets the radius of every sound suppressor; normal sculk sensors are not affected",
+  "carpet.rule.commandPlayerPrefix.name": "commandPlayerPrefix",
+  "carpet.rule.commandPlayerPrefix.desc": "Enables /playerprefix to show a prefix before player names, like [prefix]name",
+  "carpet.rule.commandPlayerPrefix.extra.0": "/playerprefix <player> <prefix> [<color>]; an empty prefix \"\" removes it",
+  "carpet.rule.commandPlayerPrefix.extra.1": "Operators can set anyone's prefix, other players only their own and fake players'",
+  "carpet.bill.playerprefix.set": "Prefix of %s set: ",
+  "carpet.bill.playerprefix.show": "Prefix of %s: ",
+  "carpet.bill.playerprefix.none": "%s has no prefix",
+  "carpet.bill.playerprefix.removed": "Removed the prefix of %s",
+  "carpet.bill.playerprefix.not_allowed": "You can only set your own prefix or the prefix of a fake player",
+  "carpet.bill.playerprefix.too_long": "A prefix can be at most %s characters long",
+  "carpet.bill.playerprefix.other_team": "%s is in team %s, so the prefix shows in chat and the player list but not above their head"
 }

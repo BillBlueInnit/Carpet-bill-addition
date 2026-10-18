@@ -11,7 +11,9 @@
     "GameEventDispatcherMixin",
     "LecternBlockMixin",
     "LevelChunkMixin",
+    "PlayerDisplayNameMixin",
     "SculkSensorBlockMixin",
+    "ServerPlayerTabListMixin",
     "ShulkerBoxBlockMixin",
     "SoundSuppressorBlockEntityMixin",
     "SoundSuppressorLevelChunkMixin"

@@ -9,5 +9,16 @@
   "carpet.rule.soundSuppressionRange.name": "声音抑制范围",
   "carpet.rule.soundSuppressionRange.desc": "声音抑制器（非法的幽匿感测体）能接收振动的距离",
   "carpet.rule.soundSuppressionRange.extra.0": "0为原版：幽匿感测体8格，校频幽匿感测体16格",
-  "carpet.rule.soundSuppressionRange.extra.1": "1 - 64设置所有声音抑制器的半径；不影响正常的幽匿感测体"
+  "carpet.rule.soundSuppressionRange.extra.1": "1 - 64设置所有声音抑制器的半径；不影响正常的幽匿感测体",
+  "carpet.rule.commandPlayerPrefix.name": "玩家前缀命令",
+  "carpet.rule.commandPlayerPrefix.desc": "启用/playerprefix，在玩家名称前显示前缀，例如[前缀]玩家名",
+  "carpet.rule.commandPlayerPrefix.extra.0": "/playerprefix <玩家> <前缀> [<颜色>]；前缀为空字符串\"\"时移除前缀",
+  "carpet.rule.commandPlayerPrefix.extra.1": "管理员可以设置任何人的前缀，其他玩家只能设置自己和假人的前缀",
+  "carpet.bill.playerprefix.set": "已设置%s的前缀：",
+  "carpet.bill.playerprefix.show": "%s的前缀：",
+  "carpet.bill.playerprefix.none": "%s没有前缀",
+  "carpet.bill.playerprefix.removed": "已移除%s的前缀",
+  "carpet.bill.playerprefix.not_allowed": "你只能设置自己或假人的前缀",
+  "carpet.bill.playerprefix.too_long": "前缀最多%s个字符",
+  "carpet.bill.playerprefix.other_team": "%s在队伍%s中，因此前缀只显示在聊天栏和玩家列表中，不会显示在头顶"
 }

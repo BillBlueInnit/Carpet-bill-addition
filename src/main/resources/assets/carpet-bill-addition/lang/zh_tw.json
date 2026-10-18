@@ -9,5 +9,16 @@
   "carpet.rule.soundSuppressionRange.name": "聲音抑制範圍",
   "carpet.rule.soundSuppressionRange.desc": "聲音抑制器（非法的伏聆振測器）能接收振動的距離",
   "carpet.rule.soundSuppressionRange.extra.0": "0為原版：伏聆振測器8格，校準伏聆振測器16格",
-  "carpet.rule.soundSuppressionRange.extra.1": "1 - 64設定所有聲音抑制器的半徑；不影響正常的伏聆振測器"
+  "carpet.rule.soundSuppressionRange.extra.1": "1 - 64設定所有聲音抑制器的半徑；不影響正常的伏聆振測器",
+  "carpet.rule.commandPlayerPrefix.name": "玩家前綴指令",
+  "carpet.rule.commandPlayerPrefix.desc": "啟用/playerprefix，在玩家名稱前顯示前綴，例如[前綴]玩家名",
+  "carpet.rule.commandPlayerPrefix.extra.0": "/playerprefix <玩家> <前綴> [<顏色>]；前綴為空字串\"\"時移除前綴",
+  "carpet.rule.commandPlayerPrefix.extra.1": "管理員可以設定任何人的前綴，其他玩家只能設定自己和假人的前綴",
+  "carpet.bill.playerprefix.set": "已設定%s的前綴：",
+  "carpet.bill.playerprefix.show": "%s的前綴：",
+  "carpet.bill.playerprefix.none": "%s沒有前綴",
+  "carpet.bill.playerprefix.removed": "已移除%s的前綴",
+  "carpet.bill.playerprefix.not_allowed": "你只能設定自己或假人的前綴",
+  "carpet.bill.playerprefix.too_long": "前綴最多%s個字元",
+  "carpet.bill.playerprefix.other_team": "%s在隊伍%s中，因此前綴只顯示在聊天欄和玩家列表中，不會顯示在頭頂"
 }

@@ -13,7 +13,10 @@ public final class CbaSettings {
     private CbaSettings() {
     }
 
-    @Rule(categories = {BILL, RuleCategory.EXPERIMENTAL, RuleCategory.SURVIVAL})
+    @Rule(
+            categories = {BILL, RuleCategory.EXPERIMENTAL, RuleCategory.SURVIVAL},
+            conditions = IllegalBlockEntitiesRemoved.class
+    )
     public static boolean reintroduceIllegalBlockEntity = false;
 
     @Rule(
@@ -42,6 +45,16 @@ public final class CbaSettings {
         @Override
         public String description() {
             return "Must be between 0 (vanilla) and " + MAX;
+        }
+    }
+
+    /**
+     * Vanilla 1.21 still has illegal block entities, so reintroduceIllegalBlockEntity only exists from 1.21.1 on.
+     */
+    public static final class IllegalBlockEntitiesRemoved implements Rule.Condition {
+        @Override
+        public boolean shouldRegister() {
+            return MinecraftVersions.atLeast("1.21.1");
         }
     }
 }

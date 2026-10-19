@@ -2,9 +2,7 @@ package com.bill.carpetbilladdition.mixin;
 
 import java.util.List;
 import java.util.Set;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.Version;
-import net.fabricmc.loader.api.VersionParsingException;
+import com.bill.carpetbilladdition.MinecraftVersions;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -27,12 +25,7 @@ public final class CbaMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void onLoad(String mixinPackage) {
-        try {
-            Version minecraft = FabricLoader.getInstance().getModContainer("minecraft").orElseThrow().getMetadata().getVersion();
-            this.vanillaHasIllegalBlockEntities = minecraft.compareTo(Version.parse("1.21.1")) < 0;
-        } catch (VersionParsingException e) {
-            throw new IllegalStateException(e);
-        }
+        this.vanillaHasIllegalBlockEntities = !MinecraftVersions.atLeast("1.21.1");
     }
 
     @Override

@@ -57,28 +57,6 @@ Requires JDK 21+ (JDK 25 for the 26.x branches).
 
 The jar is written to `build/libs/`.
 
-## Testing
-
-Both scripts drive a real dedicated server over RCON. `./gradlew runTestServer` starts one with a
-development-only helper mod (`src/testmod`, never shipped) that turns a barrier standing on a target block into
-an update suppressor and prints exact projectile positions every tick.
-
-- `scripts/server_test.py` builds sound suppressors the survival way and checks
-  `reintroduceIllegalBlockEntity` and `soundSuppressionRange`, including after a server restart
-  (`setup`, restart, `reload`).
-- `scripts/movement_test.py` compares projectile movement tick by tick with a trace recorded on vanilla 1.21.1
-  (`scripts/reference/movement-1.21.1.json`).
-
-```
-./gradlew runTestServer
-python scripts/server_test.py setup
-# restart the server
-python scripts/server_test.py reload
-
-python scripts/movement_test.py record run/test-server/logs/latest.log traces.json off pearl all
-python scripts/movement_test.py compare scripts/reference/movement-1.21.1.json traces.json
-```
-
 ## License
 
 MIT

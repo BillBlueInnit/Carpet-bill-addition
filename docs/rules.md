@@ -7,7 +7,7 @@ Use `/carpet setDefault <rule> <value>` to keep a value after restarts.
 
 | Rule | Default | Options | Minecraft |
 | --- | --- | --- | --- |
-| [`reintroduceIllegalBlockEntity`](#reintroduceillegalblockentity) | `false` | `true`, `false` | 1.21+ |
+| [`reintroduceIllegalBlockEntity`](#reintroduceillegalblockentity) | `false` | `true`, `false` | 1.21.1+ |
 | [`soundSuppressionRange`](#soundsuppressionrange) | `0` | `0` - `64` | 1.21+ |
 | [`legacyThrowableMovement`](#legacythrowablemovement) | `off` | `off`, `pearl`, `all` | 1.21.2+ |
 | [`commandPlayerPrefix`](#commandplayerprefix) | `false` | `true`, `false`, `ops`, `0` - `4` | 1.21+ |
@@ -17,7 +17,8 @@ Use `/carpet setDefault <rule> <value>` to keep a value after restarts.
 ## reintroduceIllegalBlockEntity
 
 Reintroduces **illegal block entities** (a block entity sitting under a block of a different type),
-which Minecraft 1.21.1 removed, so that **sound suppression** works again.
+which Minecraft 1.21.1 removed, so that **sound suppression** works again. The rule does not exist on 1.21,
+where vanilla still has illegal block entities.
 
 - Type: `boolean`
 - Default: `false`
@@ -148,7 +149,7 @@ not change: both versions use the position at the start of the tick.
 
 ### Verification
 
-Positions and velocities are bit-identical to 1.21.1 on every branch in `scripts/movement_test.py`
+On every branch, positions and velocities were compared tick by tick with vanilla 1.21.1 and are bit-identical
 (ticks 1 - 80 of 16 cases, from resting pearls to 2000 blocks/tick, walls, an entity, water and bubble columns).
 
 ### Notes

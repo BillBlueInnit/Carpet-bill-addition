@@ -135,6 +135,7 @@ def setup(rcon):
     check("rule on: suppressor still in place after suppressing", "minecraft:sculk_sensor" in block_entity_id(rcon, x, Y, z))
 
     sound_suppression_range(rcon)
+    lectern_comparator_relay(rcon)
     player_prefix(rcon)
 
     # No tickets left, so the test chunks are not loaded when the server starts again
@@ -170,6 +171,38 @@ def sound_suppression_range(rcon):
           "passed" in rcon.run(f"execute if block {sensor_x} {Y} {z} minecraft:sculk_sensor[sculk_sensor_phase=inactive]"))
     rcon.run(f"setblock {sensor_x} {Y} {z} air")
     rcon.run("carpet soundSuppressionRange 0")
+
+
+def lectern_comparator_relay(rcon):
+    """
+    The usual way to swap a lectern's block entity under a shulker box (a CCE box): breaking a lectern with a book
+    clears it, which updates the comparators next to it before its block entity is deleted (until 1.21.4; restored
+    by the rule on 1.21.5+). A comparator with nothing under it breaks on that update and updates the suppressor.
+    """
+    print("== lectern block entity kept through a comparator relay")
+    for rule_on, (x, z) in ((True, (760, 560)), (False, (760, 600))):
+        state = "on" if rule_on else "off"
+        load_chunk(rcon, x, z)
+        rcon.run(f"carpet reintroduceIllegalBlockEntity {str(rule_on).lower()}")
+        rcon.run(f"fill {x - 2} {Y} {z - 2} {x + 4} {Y + 1} {z + 2} air")
+        rcon.run(f"setblock {x} {Y} {z} lectern[has_book=true]")
+        # a comparator reading the lectern, left without the block under it, and the suppressor next to it
+        rcon.run("carpet fillUpdates false")
+        rcon.run(f"setblock {x + 1} {Y} {z} comparator[facing=west]")
+        rcon.run(f"setblock {x + 1} {Y - 1} {z} air")
+        rcon.run(f"setblock {x + 2} {Y - 1} {z} target")
+        rcon.run(f"setblock {x + 2} {Y} {z} barrier")
+        rcon.run("carpet fillUpdates true")
+        broke = rcon.run(f"setblock {x} {Y} {z} air destroy")
+        rcon.run(f"setblock {x + 2} {Y} {z} air")
+        rcon.run(f"setblock {x + 2} {Y - 1} {z} grass_block")
+        rcon.run(f"setblock {x} {Y} {z} shulker_box")
+        under = block_entity_id(rcon, x, Y, z)
+        if rule_on:
+            check("rule on: breaking the lectern was update suppressed through the comparator", FAILED in broke)
+            check("rule on: lectern block entity kept under the shulker box (CCE box)", "minecraft:lectern" in under)
+        else:
+            check("rule off: the shulker box gets its own block entity", "minecraft:shulker_box" in under)
 
 
 def spawn_bots(rcon, *names):

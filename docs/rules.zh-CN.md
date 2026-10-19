@@ -7,7 +7,7 @@
 
 | 规则 | 默认值 | 可选值 | Minecraft |
 | --- | --- | --- | --- |
-| [`reintroduceIllegalBlockEntity`](#reintroduceillegalblockentity重新引入非法方块实体) | `false` | `true`、`false` | 1.21+ |
+| [`reintroduceIllegalBlockEntity`](#reintroduceillegalblockentity重新引入非法方块实体) | `false` | `true`、`false` | 1.21.1+ |
 | [`soundSuppressionRange`](#soundsuppressionrange声音抑制范围) | `0` | `0` - `64` | 1.21+ |
 | [`legacyThrowableMovement`](#legacythrowablemovement旧版投掷物运动) | `off` | `off`、`pearl`、`all` | 1.21.2+ |
 | [`commandPlayerPrefix`](#commandplayerprefix玩家前缀命令) | `false` | `true`、`false`、`ops`、`0` - `4` | 1.21+ |
@@ -17,7 +17,7 @@
 ## reintroduceIllegalBlockEntity（重新引入非法方块实体）
 
 重新引入 Minecraft 1.21.1 移除的**非法方块实体（illegal block entity）**，即方块实体（block entity）与所在方块的类型不一致，
-从而让**声音抑制（sound suppression）**重新可用。
+从而让**声音抑制（sound suppression）**重新可用。1.21 原版仍有非法方块实体，因此该版本中没有这条规则。
 
 - 类型：`boolean`
 - 默认值：`false`
@@ -138,7 +138,7 @@ CCE 盒（CCE box）是装着讲台方块实体的潜影盒：配合 Carpet TIS 
 
 ### 验证
 
-在每个分支上用 `scripts/movement_test.py` 对比，位置与速度都与 1.21.1 逐位相同（16 个用例的第 1 - 80 tick，
+在每个分支上与原版 1.21.1 逐 tick 对比，位置与速度都逐位相同（16 个用例的第 1 - 80 tick，
 从静止的珍珠到每 tick 2000 格，以及撞墙、命中实体、水中和气泡柱（bubble column））。
 
 ### 注意

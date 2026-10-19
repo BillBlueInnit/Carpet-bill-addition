@@ -9,34 +9,6 @@ base {
     archivesName = project.archives_base_name
 }
 
-sourceSets {
-    testmod {
-        compileClasspath += main.compileClasspath + main.output
-        runtimeClasspath += main.runtimeClasspath + main.output
-    }
-}
-
-loom {
-    mods {
-        "carpet-bill-addition" {
-            sourceSet sourceSets.main
-        }
-        "cba-testmod" {
-            sourceSet sourceSets.testmod
-        }
-    }
-    runs {
-        testServer {
-            server()
-            name = "Test Server"
-            source sourceSets.testmod
-            runDir = "run/test-server"
-            vmArg "-Dmixin.debug.export=true"
-            ideConfigGenerated = false
-        }
-    }
-}
-
 repositories {
     maven { url = "https://masa.dy.fi/maven" }
 }

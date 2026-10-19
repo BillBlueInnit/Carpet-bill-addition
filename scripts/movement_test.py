@@ -67,6 +67,10 @@ CASES = [
 ]
 
 
+def game_time(rcon):
+    return int(rcon.run("time query gametime").split()[-1])
+
+
 def run_mode(rcon, mode):
     print(f"== mode {mode}")
     if mode != "vanilla":
@@ -87,7 +91,10 @@ def run_mode(rcon, mode):
                 break
         else:
             raise RuntimeError(f"could not summon {name}")
-    time.sleep(6)
+    # Wait for game ticks, not seconds: a slow server would otherwise kill the projectiles too early
+    start = game_time(rcon)
+    while game_time(rcon) - start < LAST_COMPARED_TICK + 10:
+        time.sleep(0.5)
     rcon.run("kill @e[tag=cba_trace]")
     rcon.run("kill @e[type=chicken]")
     rcon.run("kill @e[type=experience_orb]")

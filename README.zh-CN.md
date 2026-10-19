@@ -54,25 +54,6 @@
 
 jar 输出在 `build/libs/`。
 
-## 测试
-
-两个脚本都通过 RCON 控制真实的专用服务器。`./gradlew runTestServer` 会启动一个附带仅供开发使用的辅助模组
-（`src/testmod`，不会发布）的服务器：它把放在标靶方块上的屏障变成更新抑制器（update suppressor），并每 tick 输出投掷物的精确位置。
-
-- `scripts/server_test.py` 按生存的方式制作声音抑制器，检查 `reintroduceIllegalBlockEntity` 和 `soundSuppressionRange`，
-  包括重启服务器之后的情况（`setup`、重启、`reload`）。
-- `scripts/movement_test.py` 把投掷物运动与在原版 1.21.1 上录制的轨迹（`scripts/reference/movement-1.21.1.json`）逐 tick 对比。
-
-```
-./gradlew runTestServer
-python scripts/server_test.py setup
-# 重启服务器
-python scripts/server_test.py reload
-
-python scripts/movement_test.py record run/test-server/logs/latest.log traces.json off pearl all
-python scripts/movement_test.py compare scripts/reference/movement-1.21.1.json traces.json
-```
-
 ## 许可证
 
 MIT

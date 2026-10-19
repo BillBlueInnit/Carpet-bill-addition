@@ -11,6 +11,7 @@ velocity of every tagged entity at the end of each server tick and when it is re
         target:    "off", "pearl" and "all" traces recorded on the version under test
 """
 import json
+import re
 import sys
 import time
 
@@ -68,7 +69,8 @@ CASES = [
 
 
 def game_time(rcon):
-    return int(rcon.run("time query gametime").split()[-1])
+    # "The time is 122" before 26.x, "The game time is 122 tick(s)" after
+    return int(re.search(r"\d+", rcon.run("time query gametime")).group())
 
 
 def run_mode(rcon, mode):

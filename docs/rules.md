@@ -36,10 +36,20 @@ which Minecraft 1.21.1 removed, so that **sound suppression** works again.
 | `LevelChunk.setBlockState` deletes a block entity whose type does not match the new block | 1.21.1 | Kept and given the new block state, like 1.21 |
 | Sculk sensors, lecterns, shulker boxes and chiseled bookshelves delete their block entity *before* sending the neighbor updates of their removal | 1.21.1 | Updates first, block entity deleted afterwards, like 1.21 |
 | Every block entity is deleted before `affectNeighborsAfterRemoval` (the old `onRemove` was split up) | 1.21.5 | Neighbor updates of the removed block run first, the block entity is deleted afterwards |
+| A removed lectern with a book only copies the book out instead of clearing itself, so the comparators next to it are no longer updated before its block entity is deleted | 1.21.5 | It clears itself again, updating those comparators first, like 1.21.4 |
 
 The last two rows are what make illegal block entities buildable in survival: when the neighbor updates of a
 removed block are update-suppressed, the exception aborts the replacement before the block entity is deleted,
 so it stays behind under the new block.
+
+### Lecterns and CCE boxes
+
+A CCE box is a shulker box holding a lectern block entity: with Carpet TIS Addition's `shulkerBoxCCEReintroduced`,
+a comparator reading it throws `ClassCastException`. To make one, break a lectern that has a book while the update
+from its comparator is suppressed, for example through a comparator that breaks because nothing is under it, then
+place a shulker box where the lectern was. Breaking the lectern updates that comparator before the lectern's block
+entity is deleted, so the block entity stays behind and ends up in the shulker box. This works on every supported
+version with the rule on, like in 1.21.
 
 ### How sound suppression works
 

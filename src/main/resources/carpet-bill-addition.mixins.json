@@ -7,6 +7,7 @@
     "BlockEntityMixin",
     "EuclideanGameEventListenerRegistryMixin",
     "GameEventDispatcherMixin",
+    "LecternBlockEntityMixin",
     "LevelChunkMixin",
     "PlayerDisplayNameMixin",
     "ProjectileInvoker",
